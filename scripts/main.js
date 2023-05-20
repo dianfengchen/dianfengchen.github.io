@@ -3,7 +3,7 @@ let myImage = document.querySelector('img');
 myImage.onclick = function () {
     let mySrc = myImage.getAttribute('src');
     if (mySrc === 'images/firefox-icon.png') {
-        myImage.setAttribute('src', 'http://43.138.177.32:8000/test1.png');
+        myImage.setAttribute('src', 'images/laoying.png');
     }
     else {
         myImage.setAttribute('src', 'images/firefox-icon.png')
