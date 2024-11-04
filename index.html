@@ -12,9 +12,39 @@
     <link rel="stylesheet" type="text/css" href="页面/1.首页/css/cloud.css"/>
     <link rel="stylesheet" type="text/css" href="页面/1.首页/css/bottom_button.css"/>
     <title>首页</title>
+    <style>
+        .logo-container {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 1000;
+        }
+
+        .logo-container img {
+            width: 100px; /* 调整Logo的宽度 */
+            height: auto;
+        }
+        /* 底部版权声明样式 */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding: 2px;
+            background-color: #5a3e2b;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
 </head>
 
 <body onload="parent.location='index.html#slider-span1' ">
+<div class="logo-container">
+    <a href="index.html">
+        <img src="公共库/全局imgs/logo.webp" alt="网站Logo">
+    </a>
+</div>
 <div class="header">
     <div class="slider"></div>
     <!--slider1加一个属性就可以定在哪里-->
@@ -89,9 +119,6 @@
     </div>
 
 
-
-
-
 </div>
 <div class="content">
 
@@ -109,6 +136,11 @@
         <div class="right_hover_div">
             <a href="页面/firework.html" title="烟花秀" class="a_">
                 <img src="页面/1.首页/imgs/过年.png" alt="烟花秀">
+            </a>
+        </div>
+        <div class="right_hover_div">
+            <a href="页面/donghua.html" title="动画" class="a_">
+                <img src="公共库/全局imgs/donghua.webp" alt="动画">
             </a>
         </div>
     </div>
@@ -191,12 +223,15 @@
             </div>
         </div>
     </div>
-
 </div>
+
 <div class="background_png">
     <div class="L_to_R"></div>
     <div class="R_to_L"></div>
 </div>
+<footer>
+    &copy; 2024 中医药网站. 版权所有.
+</footer>
 <script>
 
     $(document).ready(function () {

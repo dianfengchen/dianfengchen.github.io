@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中医药动画示例</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5e6;
+        }
+        canvas {
+            border: 2px solid #8c8c8c;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="myCanvas" width="400" height="400"></canvas>
+
+<script>
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // 药草数组，包含多个药草对象
+    const herbs = [];
+    const herbCount = 7; // 药草数量
+    const accumulatedHerbs = []; // 药罐中累积的药材
+
+    // 初始化多个药草对象
+    for (let i = 0; i < herbCount; i++) {
+        herbs.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * -canvas.height,
+            size: 10 + Math.random() * 10, // 随机大小
+            speed: 1 + Math.random() * 1.5, // 随机下落速度
+            rotation: Math.random() * Math.PI * 2, // 初始旋转角度
+            rotationSpeed: 0.02 + Math.random() * 0.03 // 旋转速度
+        });
+    }
+
+    // 绘制药罐
+    function drawPot() {
+        ctx.fillStyle = "#8b5a2b";
+        ctx.beginPath();
+        ctx.ellipse(200, 300, 70, 30, 0, Math.PI, 2 * Math.PI); // 药罐口
+        ctx.fill();
+
+        // 药罐主体
+        ctx.beginPath();
+        ctx.moveTo(130, 300);
+        ctx.lineTo(270, 300);
+        ctx.quadraticCurveTo(300, 380, 200, 380); // 右侧曲线
+        ctx.quadraticCurveTo(100, 380, 130, 300); // 左侧曲线
+        ctx.fill();
+    }
+
+    // 绘制单个药草（简单的椭圆叶子形状，带旋转效果）
+    function drawHerb(x, y, size, rotation) {
+        ctx.save(); // 保存当前画布状态
+        ctx.translate(x, y); // 移动到药草的位置
+        ctx.rotate(rotation); // 应用旋转
+        ctx.fillStyle = "#4caf50";
+        ctx.beginPath();
+        ctx.ellipse(0, 0, size, size / 2, Math.PI / 4, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.restore(); // 恢复画布状态
+    }
+
+    // 绘制累积在药罐中的药草
+    function drawAccumulatedHerbs() {
+        accumulatedHerbs.forEach(herb => {
+            drawHerb(herb.x, herb.y, herb.size, herb.rotation);
+        });
+    }
+
+    // 动画主循环
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // 绘制药罐
+        drawPot();
+
+        // 绘制并更新每个药草的位置和旋转
+        herbs.forEach((herb, index) => {
+            drawHerb(herb.x, herb.y, herb.size, herb.rotation);
+            herb.y += herb.speed; // 药草下落
+            herb.rotation += herb.rotationSpeed; // 药草旋转
+
+            // 当药草落入药罐后重新随机位置，并将其加入到累积数组中
+            if (herb.y > 290) { // 药罐顶部位置
+                accumulatedHerbs.push({
+                    x: 150 + Math.random() * 100, // 随机水平位置
+                    y: 360 - accumulatedHerbs.length * 3, // 累积效果
+                    size: herb.size,
+                    rotation: herb.rotation
+                });
+
+                // 重置药草位置
+                herb.y = Math.random() * -canvas.height; // 从顶部随机位置重新落下
+                herb.x = 150 + Math.random() * 100;
+                herb.size = 10 + Math.random() * 10;
+                herb.speed = 1 + Math.random() * 1.5;
+                herb.rotation = Math.random() * Math.PI * 2;
+                herb.rotationSpeed = 0.02 + Math.random() * 0.03;
+            }
+        });
+
+        // 绘制累积的药材
+        drawAccumulatedHerbs();
+
+        requestAnimationFrame(animate);
+    }
+
+    // 开始动画
+    animate();
+</script>
+
+</body>
+</html>
